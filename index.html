@@ -1,24 +1,41 @@
-<div class="container">
-    <h1>Calculadora de Despiece Drywall</h1>
-    <p>Ingresa los metros lineales (ML) obtenidos de SketchUp.</p>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drywall Calc Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <header>
+            <h1>Calculadora de Despiece <span>Drywall</span></h1>
+            <p>Ingresa los ML de SketchUp para calcular piezas reales.</p>
+        </header>
 
-    <table id="tablaMateriales">
-        <thead>
-            <tr>
-                <th>Material (Nombre)</th>
-                <th>ML Totales (SketchUp)</th>
-                <th>Largo Perfil (m)</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody id="cuerpoTabla">
-            </tbody>
-    </table>
+        <section class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Material</th>
+                        <th>ML Totales</th>
+                        <th>Largo Perfil (m)</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpoTabla">
+                    </tbody>
+            </table>
+            
+            <div class="button-group">
+                <button class="btn-secondary" onclick="agregarFila()">+ Agregar Material</button>
+                <button class="btn-primary" onclick="procesarCalculo()">Generar Lista de Compra</button>
+            </div>
+        </section>
 
-    <div class="actions">
-        <button class="btn-add" onclick="agregarFila()">+ Agregar Material</button>
-        <button class="btn-calc" onclick="procesarCalculo()">Generar Lista de Compra</button>
+        <section id="resultadoFinal" class="results-grid">
+            </section>
     </div>
-
-    <div id="resultadoFinal" class="resultado-card"></div>
-</div>
+    <script src="script.js"></script>
+</body>
+</html>
