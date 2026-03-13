@@ -1,43 +1,46 @@
+// Agregar una fila inicial al cargar
+window.onload = () => agregarFila();
+
 function agregarFila() {
     const tabla = document.getElementById('cuerpoTabla');
-    const fila = `
-        <tr>
-            <td><input type="text" placeholder="Ej: Paral 60mm" class="nombre"></td>
-            <td><input type="number" placeholder="ML totales" class="ml-total"></td>
-            <td><input type="number" value="2.44" class="largo-p"></td>
-            <td><button onclick="this.parentElement.parentElement.remove()">❌</button></td>
-        </tr>`;
-    tabla.insertAdjacentHTML('beforeend', fila);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+        <td><input type="text" placeholder="Ej. Paral 6cm" class="nombre"></td>
+        <td><input type="number" placeholder="0.00" class="ml-total"></td>
+        <td><input type="number" value="2.44" class="largo-p"></td>
+        <td><button class="btn-delete" onclick="this.parentElement.parentElement.remove()">&times;</button></td>
+    `;
+    tabla.appendChild(tr);
 }
 
 function procesarCalculo() {
     const filas = document.querySelectorAll('#cuerpoTabla tr');
-    let htmlResultado = "<h2>Lista de Compra Estimada</h2><ul>";
-    const traslape = 0.20; // 20cm de traslape fijo
+    const contenedor = document.getElementById('resultadoFinal');
+    contenedor.innerHTML = ""; // Limpiar
+    
+    const traslape = 0.20; // 20cm
 
     filas.forEach(fila => {
         const nombre = fila.querySelector('.nombre').value || "Material";
         const mlTotal = parseFloat(fila.querySelector('.ml-total').value);
         const largoP = parseFloat(fila.querySelector('.largo-p').value);
 
-        if (mlTotal && largoP) {
-            // Lógica Senior: Cálculo compensado por traslapes
-            // Cantidad inicial sin traslape
-            let cantidadPiezas = Math.ceil(mlTotal / largoP);
+        if (mlTotal > 0) {
+            // Lógica de traslapes: (Largo Total / (Largo Perfil - Traslape))
+            // Es la forma más precisa de calcular tramos continuos
+            let piezas = Math.ceil(mlTotal / (largoP - traslape));
             
-            // Añadimos el extra por cada unión necesaria (cantidad - 1 uniones)
-            let mlConTraslape = mlTotal + ((cantidadPiezas - 1) * traslape);
-            
-            // Recalculamos piezas con el nuevo largo total
-            let piezasFinales = Math.ceil(mlConTraslape / largoP);
-            
-            // Añadimos un 5% de seguridad por cortes erróneos (desperdicio físico)
-            piezasFinales = Math.ceil(piezasFinales * 1.05);
+            // Margen de error/desperdicio del 5%
+            let totalConDesperdicio = Math.ceil(piezas * 1.05);
 
-            htmlResultado += `<li><strong>${nombre}:</strong> ${piezasFinales} unidades de ${largoP}m</li>`;
+            const card = document.createElement('div');
+            card.className = 'result-card';
+            card.innerHTML = `
+                <h3>${nombre}</h3>
+                <p>Necesitas: <strong>${totalConDesperdicio} piezas</strong></p>
+                <small>Basado en ${mlTotal}ml con traslape de 20cm</small>
+            `;
+            contenedor.appendChild(card);
         }
     });
-
-    htmlResultado += "</ul>";
-    document.getElementById('resultadoFinal').innerHTML = htmlResultado;
 }
