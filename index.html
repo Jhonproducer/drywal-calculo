@@ -1,40 +1,24 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Drywall Master Calc - Cielo Raso</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
-    <div class="calculator-card">
-        <h1>Calculadora de Cielo Raso</h1>
-        <p class="subtitle">Cálculo profesional con traslape de 20cm</p>
-        
-        <div class="input-grid">
-            <div class="group">
-                <label>Largo del Techo (m)</label>
-                <input type="number" id="largoTecho" value="5" step="0.1">
-            </div>
-            <div class="group">
-                <label>Ancho del Techo (m)</label>
-                <input type="number" id="anchoTecho" value="4" step="0.1">
-            </div>
-            <div class="group">
-                <label>Largo del Perfil (m)</label>
-                <input type="number" id="largoPerfil" value="2.44" step="0.01">
-            </div>
-            <div class="group">
-                <label>Separación Parales (m)</label>
-                <input type="number" id="separacion" value="0.61" step="0.01">
-            </div>
-        </div>
+<div class="container">
+    <h1>Calculadora de Despiece Drywall</h1>
+    <p>Ingresa los metros lineales (ML) obtenidos de SketchUp.</p>
 
-        <button onclick="calcularMateriales()">Calcular Materiales</button>
+    <table id="tablaMateriales">
+        <thead>
+            <tr>
+                <th>Material (Nombre)</th>
+                <th>ML Totales (SketchUp)</th>
+                <th>Largo Perfil (m)</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody id="cuerpoTabla">
+            </tbody>
+    </table>
 
-        <div id="results" class="results-area">
-            </div>
+    <div class="actions">
+        <button class="btn-add" onclick="agregarFila()">+ Agregar Material</button>
+        <button class="btn-calc" onclick="procesarCalculo()">Generar Lista de Compra</button>
     </div>
-    <script src="script.js"></script>
-</body>
-</html>
+
+    <div id="resultadoFinal" class="resultado-card"></div>
+</div>
